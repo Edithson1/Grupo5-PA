@@ -37,11 +37,25 @@ except Exception as e:
 st.subheader('Datos del archivo CSV')
 st.dataframe(df)
 
-# Selecconar el tipo de gráfico
-tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])
+#seleccionar opcion de configuracion
+configuracion = st.selectbox('Selecciona configuracion del grafico', ['Simple', 'Avanzado'])
 
-# Selección de columna para visualizar
-columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns)
+if configuracion == Simple:
+    # Selecconar el tipo de gráfico
+    tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])
+    
+    # Selección de columna para visualizar
+    columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns)
+
+else:
+    region = st.selectbox('Selecciona la region', list(df['REG_NAT'].unique()))
+    df_filtrado = df[df['REG_NAT'] == region]
+    departamento = st.selectbox('Selecciona el departamento', list(df_filtrado['DEPARTAMENTO'].unique()))
+    df_filtrado1 = df_filtrado[df_filtrado['DEPARTAMENTO'] == departamento]
+    provincia = st.selectbox('Selecciona la provincia', list(df_filtrado1['PROVINCIA'].unique()))
+    df_filtrado2 = df_filtrado1[df_filtrado1['PROVINCIA'] == provincia]
+    distrito = st.selectbox('Selecciona el distrito', list(df_filtrado2['DISTRITO'].unique()))
+    df_filtrado3 = df_filtrado2[df_filtrado2['DISTRITO'] == distrito]
 
 if st.button('Generar gráfico'):
     sizes = df[columna_grafico].value_counts()
