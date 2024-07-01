@@ -40,7 +40,7 @@ st.dataframe(df)
 #seleccionar opcion de configuracion
 configuracion = st.selectbox('Selecciona configuracion del grafico', ['Simple', 'Avanzado'])
 
-if configuracion == Simple:
+if configuracion == "Simple":
     # Selecconar el tipo de gráfico
     tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])
     
