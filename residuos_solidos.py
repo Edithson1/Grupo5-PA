@@ -39,24 +39,30 @@ st.dataframe(df)
 
 #seleccionar opcion de configuracion
 configuracion = st.selectbox('Selecciona configuracion del grafico', ['Simple', 'Avanzado'])
-if configuracion == "Simple":
-    # Selecconar el tipo de gráfico
-    tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])
-    
-    # Selección de columna para visualizar
-    columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns[7:14])
 
-else:
+df_final = None
+if configuracion != "Simple":
     region = st.selectbox('Selecciona la region', list(df['REG_NAT'].unique())+['ALL'])
-    df_filtrado = df[df['REG_NAT'] == region]
-    departamento = st.selectbox('Selecciona el departamento', list(df_filtrado['DEPARTAMENTO'].unique())+['ALL'])
-    df_filtrado1 = df_filtrado[df_filtrado['DEPARTAMENTO'] == departamento]
-    provincia = st.selectbox('Selecciona la provincia', list(df_filtrado1['PROVINCIA'].unique())+['ALL'])
-    df_filtrado2 = df_filtrado1[df_filtrado1['PROVINCIA'] == provincia]
-    distrito = st.selectbox('Selecciona el distrito', list(df_filtrado2['DISTRITO'].unique())+['ALL'])
-    df_filtrado3 = df_filtrado2[df_filtrado2['DISTRITO'] == distrito]
-
+    if region != 'ALL':
+        df_filtrado = df[df['REG_NAT'] == region]
+        departamento = st.selectbox('Selecciona el departamento', list(df_filtrado['DEPARTAMENTO'].unique())+['ALL'])
+        if departamento != 'ALL':
+            df_filtrado1 = df_filtrado[df_filtrado['DEPARTAMENTO'] == departamento]
+            provincia = st.selectbox('Selecciona la provincia', list(df_filtrado1['PROVINCIA'].unique())+['ALL'])
+            if provincia != 'ALL':
+                df_filtrado2 = df_filtrado1[df_filtrado1['PROVINCIA'] == provincia]
+                distrito = st.selectbox('Selecciona el distrito', list(df_filtrado2['DISTRITO'].unique())+['ALL'])
+                if distrito != 'ALL':
+                    df_filtrado3 = df_filtrado2[df_filtrado2['DISTRITO'] == distrito]
+                    df_final = df_filtrado3
+# Selecconar el tipo de gráfico
+tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])  
+# Selección de columna para visualizar
+columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns[7:14])
+                    
 if st.button('Generar gráfico'):
+    if df_final != None:
+        df = df_final
     sizes = df[columna_grafico].value_counts()
     if tipo_grafico == 'Circular':
         # Gráfico circular interactivo con plotly
