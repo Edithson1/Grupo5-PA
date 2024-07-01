@@ -35,7 +35,9 @@ except UnicodeDecodeError:
 except Exception as e:
     st.error(f"Error al cargar el archivo CSV: {str(e)}")
     st.stop()
+    
 rango_seleccionado = st.slider('Selecciona un rango de valores', min_value=0, max_value=int(len(df)), value=(0, len(df)))
+df = df.iloc[rango_seleccionado[0]:rango_seleccionado[1]+1]
 # Mostrar el DataFrame en Streamlit
 st.subheader('Datos del archivo CSV')
 st.dataframe(df)
