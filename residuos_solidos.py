@@ -47,13 +47,13 @@ if configuracion == "Simple":
     columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns[7:14])
 
 else:
-    region = st.selectbox('Selecciona la region', list(df['REG_NAT'].unique()))
+    region = st.selectbox('Selecciona la region', list(df['REG_NAT'].unique())+['ALL'])
     df_filtrado = df[df['REG_NAT'] == region]
-    departamento = st.selectbox('Selecciona el departamento', list(df_filtrado['DEPARTAMENTO'].unique()))
+    departamento = st.selectbox('Selecciona el departamento', list(df_filtrado['DEPARTAMENTO'].unique())+['ALL'])
     df_filtrado1 = df_filtrado[df_filtrado['DEPARTAMENTO'] == departamento]
-    provincia = st.selectbox('Selecciona la provincia', list(df_filtrado1['PROVINCIA'].unique()))
+    provincia = st.selectbox('Selecciona la provincia', list(df_filtrado1['PROVINCIA'].unique())+['ALL'])
     df_filtrado2 = df_filtrado1[df_filtrado1['PROVINCIA'] == provincia]
-    distrito = st.selectbox('Selecciona el distrito', list(df_filtrado2['DISTRITO'].unique()))
+    distrito = st.selectbox('Selecciona el distrito', list(df_filtrado2['DISTRITO'].unique())+['ALL'])
     df_filtrado3 = df_filtrado2[df_filtrado2['DISTRITO'] == distrito]
 
 if st.button('Generar gráfico'):
