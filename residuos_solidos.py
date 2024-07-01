@@ -39,13 +39,12 @@ st.dataframe(df)
 
 #seleccionar opcion de configuracion
 configuracion = st.selectbox('Selecciona configuracion del grafico', ['Simple', 'Avanzado'])
-
 if configuracion == "Simple":
     # Selecconar el tipo de gráfico
     tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])
     
     # Selección de columna para visualizar
-    columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns)
+    columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns[7:14])
 
 else:
     region = st.selectbox('Selecciona la region', list(df['REG_NAT'].unique()))
