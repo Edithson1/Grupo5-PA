@@ -83,20 +83,14 @@ if st.button('Generar gráfico'):
         df_seleccionado = df[df[columna_grafico] == selected_value]
         st.dataframe(df_seleccionado)
     elif tipo_grafico == 'Histograma':
-        # Encontrar el valor máximo en la columna seleccionada
-        valor_max = df[columna_grafico].max()
-        # Definir los intervalos (bins) en función del valor máximo
-        bins = np.logspace(0, np.log10(valor_max), num=10)  # Ajusta el número de bins según tus necesidades
-        # Crear el histograma usando Plotly
-        fig = px.histogram(df, x=columna_grafico, nbins=len(bins)-1, histnorm='count', title=f'Histograma de {columna_grafico}')
-        # Actualizar los límites de los bins para que se correspondan con los intervalos personalizados
-        fig.update_traces(xbins=dict(
-            start=bins[0],
-            end=bins[-1],
-            size=(bins[-1] - bins[0]) / (len(bins) - 1)  # Ajusta este valor según tus necesidades
-        ))
+        datos = df[columna_grafico].to_numpy()
+        fig, ax = plt.subplots()
+        ax.hist(datos, bins=20)
+        ax.set_title(f'Histograma de {columna_grafico}')
+        ax.set_xlabel(columna_grafico)
+        ax.set_ylabel('Frecuencia')
         # Mostrar el histograma en Streamlit
-        st.plotly_chart(fig)
+        st.pyplot(fig)
 # Información general sobre los datos
 st.subheader('Resumen estadístico')
 st.write(df.describe())
