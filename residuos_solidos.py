@@ -61,7 +61,7 @@ tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barr
 columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns[7:14])
                     
 if st.button('Generar gráfico'):
-    if df_final != None:
+    if df_final is not None:
         df = df_final
     sizes = df[columna_grafico].value_counts()
     if tipo_grafico == 'Circular':
