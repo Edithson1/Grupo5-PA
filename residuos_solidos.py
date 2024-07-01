@@ -56,7 +56,7 @@ if configuracion != "Simple":
                     df_filtrado = df_filtrado[df_filtrado['DISTRITO'] == distrito]
         df_final = df_filtrado
 # Selecconar el tipo de gráfico
-tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])  
+tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras', 'Histograma'])  
 # Selección de columna para visualizar
 columna_grafico = st.selectbox('Selecciona una columna para visualizar', df.columns[7:14])
                     
@@ -81,12 +81,18 @@ if st.button('Generar gráfico'):
         selected_value = st.selectbox('Selecciona un valor para ver detalles', sizes.index)
         df_seleccionado = df[df[columna_grafico] == selected_value]
         st.dataframe(df_seleccionado)
-
-        # Mostrar información específica de distrito si aplica
-        if 'DISTRITO' in df_seleccionado.columns:
-            distrito_info = df_seleccionado[['DISTRITO', 'DEPARTAMENTO']].drop_duplicates()
-            st.write('Información de distritos y sus ubicaciones:')
-            st.dataframe(distrito_info)
+    elif tipo_grafico == 'Histograma':
+        valor_max = df[columna_grafico].max()
+        bins = np.logspace(0, np.log10(valor_max), num=10)  # Ajusta el número de bins según tus necesidades
+        # Crear el histograma usando Plotly
+        fig = px.histogram(df, x=columna_grafico, nbins=len(bins)-1, histnorm='count', title=f'Histograma de {columna_grafico}')
+        fig.update_layout(xaxis_title=columna_grafico, yaxis_title='Frecuencia')
+        # Actualizar los límites de los bins para que se correspondan con los intervalos personalizados
+        fig.update_traces(xbins=dict(
+            start=bins[0],
+            end=bins[-1],
+            size=(bins[-1] - bins[0]) / (len(bins) - 1)  # Ajusta este valor según tus necesidades
+        ))
 
 # Información general sobre los datos
 st.subheader('Resumen estadístico')
