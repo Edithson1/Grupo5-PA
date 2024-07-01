@@ -47,14 +47,14 @@ if configuracion != "Simple":
         df_filtrado = df[df['REG_NAT'] == region]
         departamento = st.selectbox('Selecciona el departamento', list(df_filtrado['DEPARTAMENTO'].unique())+['ALL'])
         if departamento != 'ALL':
-            df_filtrado1 = df_filtrado[df_filtrado['DEPARTAMENTO'] == departamento]
-            provincia = st.selectbox('Selecciona la provincia', list(df_filtrado1['PROVINCIA'].unique())+['ALL'])
+            df_filtrado = df_filtrado[df_filtrado['DEPARTAMENTO'] == departamento]
+            provincia = st.selectbox('Selecciona la provincia', list(df_filtrado['PROVINCIA'].unique())+['ALL'])
             if provincia != 'ALL':
-                df_filtrado2 = df_filtrado1[df_filtrado1['PROVINCIA'] == provincia]
-                distrito = st.selectbox('Selecciona el distrito', list(df_filtrado2['DISTRITO'].unique())+['ALL'])
+                df_filtrado = df_filtrado[df_filtrado['PROVINCIA'] == provincia]
+                distrito = st.selectbox('Selecciona el distrito', list(df_filtrado['DISTRITO'].unique())+['ALL'])
                 if distrito != 'ALL':
-                    df_filtrado3 = df_filtrado2[df_filtrado2['DISTRITO'] == distrito]
-                    df_final = df_filtrado3
+                    df_filtrado = df_filtrado[df_filtrado['DISTRITO'] == distrito]
+        df_final = df_filtrado
 # Selecconar el tipo de gráfico
 tipo_grafico = st.selectbox('Selecciona el tipo de gráfico', ['Circular', 'Barras'])  
 # Selección de columna para visualizar
